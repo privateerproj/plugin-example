@@ -1,14 +1,17 @@
 package main
 
 import (
+	"embed"
 	"fmt"
+	"path/filepath"
 
 	"os"
 
-	"github.com/privateerproj/privateer-plugin-example-plugin/armory"
+	"github.com/MYORG/plugin-GCS/data"
+	"github.com/MYORG/plugin-GCS/evaluation_plans"
 
 	"github.com/privateerproj/privateer-sdk/command"
-	"github.com/privateerproj/privateer-sdk/config"
+	"github.com/privateerproj/privateer-sdk/pluginkit"
 )
 
 var (
@@ -21,36 +24,48 @@ var (
 	// BuiltAt is the actual build datetime
 	BuiltAt = ""
 
-	PluginName   = "example-plugin"
-	RequiredVars = []string{
-		"your",
-		"required",
-		"variables",
-	}
+	PluginName   = "GCS"
+	RequiredVars = []string{}
 
-	runCmd = command.NewPluginCommands(
-		PluginName,
-		Version,
-		VersionPostfix,
-		GitCommitHash,
-		&armory.Armory,
-		initializer,
-		RequiredVars,
-	)
+	//go:embed data/catalogs
+	files   embed.FS
+	dataDir = filepath.Join("data", "catalogs")
 )
-
-// initializer is a custom function to run after the config has been read
-// this could be omitted or replaced by something like armory.SetupArmory(c)
-func initializer(c *config.Config) (err error) {
-	return
-}
 
 func main() {
 	if VersionPostfix != "" {
 		Version = fmt.Sprintf("%s-%s", Version, VersionPostfix)
 	}
 
-	err := runCmd.Execute()
+	orchestrator := pluginkit.EvaluationOrchestrator{
+		PluginName:    PluginName,
+		PluginVersion: Version,
+		PluginUri:     "github.com/MYORG/plugin-GCS",
+	}
+	orchestrator.AddLoader(data.Loader)
+
+	err := orchestrator.AddReferenceCatalogs(dataDir, files)
+	if err != nil {
+		fmt.Printf("Error loading catalog: %v\n", err)
+		os.Exit(1)
+	}
+
+	orchestrator.AddRequiredVars(RequiredVars)
+	err = orchestrator.AddEvaluationSuite("CCC.ObjStor", nil, evaluation_plans.CCC_ObjStor)
+	if err != nil {
+		fmt.Printf("Error adding evaluation suite: %v\n", err)
+		os.Exit(1)
+	}
+
+	runCmd := command.NewPluginCommands(
+		PluginName,
+		Version,
+		VersionPostfix,
+		GitCommitHash,
+		&orchestrator,
+	)
+
+	err = runCmd.Execute()
 	if err != nil {
 		os.Exit(1)
 	}
