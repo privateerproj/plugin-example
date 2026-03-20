@@ -7,8 +7,8 @@ import (
 
 	"os"
 
-	"github.com/MYORG/plugin-GCS/data"
-	"github.com/MYORG/plugin-GCS/evaluation_plans"
+	"github.com/privateerproj/plugin-example/data"
+	"github.com/privateerproj/plugin-example/evaluation_plans"
 
 	"github.com/privateerproj/privateer-sdk/command"
 	"github.com/privateerproj/privateer-sdk/pluginkit"
@@ -24,7 +24,7 @@ var (
 	// BuiltAt is the actual build datetime
 	BuiltAt = ""
 
-	PluginName   = "GCS"
+	PluginName   = "plugin-example"
 	RequiredVars = []string{}
 
 	//go:embed data/catalogs
@@ -40,7 +40,7 @@ func main() {
 	orchestrator := pluginkit.EvaluationOrchestrator{
 		PluginName:    PluginName,
 		PluginVersion: Version,
-		PluginUri:     "github.com/MYORG/plugin-GCS",
+		PluginUri:     "github.com/privateerproj/plugin-example",
 	}
 	orchestrator.AddLoader(data.Loader)
 

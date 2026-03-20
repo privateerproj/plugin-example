@@ -11,6 +11,9 @@
 # App generated
 generated_plugins/
 
+# binary
+plugin-example
+
 # Log files
 *.log
 
@@ -33,9 +36,10 @@ go.work.sum
 # env file
 .env
 
-# other
+# Other
 .DS_Store
 .vscode
+
 
 # project overrides
 !test_output/**/*.log

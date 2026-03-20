@@ -9,7 +9,7 @@ services:
   # Replace the example service name below with your service id/name. Multiple services
   # may be provided at the same level as separate map entries.
   myService1: # unique name/id for the evaluation
-    plugin: GCS # required while running via Privateer
+    plugin: plugin-example # required while running via Privateer
 
     # The policy section may be set at the top level if assessing multiple services via privateer
     policy:

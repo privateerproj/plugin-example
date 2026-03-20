@@ -3,9 +3,9 @@ package reusable_steps
 import (
 	"fmt"
 
-	"github.com/ossf/gemara/layer4"
+	"github.com/gemaraproj/go-gemara"
 
-	"github.com/MYORG/plugin-GCS/data"
+	"github.com/privateerproj/plugin-example/data"
 )
 
 // VerifyPayload typecasts the payload so that it can be used elsewhere in a step.
@@ -20,6 +20,6 @@ func VerifyPayload(payloadData any) (payload data.Payload, message string) {
 }
 
 // NotImplemented is meets the minimum requirements of a Gemara AssessmentStep
-func NotImplemented(payloadData any) (result layer4.Result, message string) {
-	return layer4.NeedsReview, "Not implemented"
+func NotImplemented(payloadData any) (result gemara.Result, message string, confidence gemara.ConfidenceLevel) {
+	return gemara.NeedsReview, "Not implemented", 0
 }

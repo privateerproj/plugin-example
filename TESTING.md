@@ -233,7 +233,7 @@ The following structure is recommended:
 
 ### Run all tests
 
-- Navigate to project's root folder and execute ```go test ./...```
+- Navigate to project's root folder and execute ```go tests ./...```
 ```
 cd ./projectroot/
 go test -v ./...
