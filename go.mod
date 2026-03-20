@@ -4,7 +4,7 @@ go 1.25.1
 
 require (
 	github.com/gemaraproj/go-gemara v0.0.2
-	github.com/privateerproj/privateer-sdk v1.20.0
+	github.com/privateerproj/privateer-sdk v1.21.0
 )
 
 require (
