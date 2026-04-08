@@ -3,8 +3,8 @@ module github.com/privateerproj/plugin-example // Replace this globally with you
 go 1.25.1
 
 require (
-	github.com/gemaraproj/go-gemara v0.0.2
-	github.com/privateerproj/privateer-sdk v1.22.0
+	github.com/gemaraproj/go-gemara v0.1.1
+	github.com/privateerproj/privateer-sdk v1.22.1
 )
 
 require (
@@ -19,7 +19,7 @@ require (
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
 	github.com/go-git/go-billy/v5 v5.8.0 // indirect
-	github.com/go-git/go-git/v5 v5.17.0 // indirect
+	github.com/go-git/go-git/v5 v5.17.2 // indirect
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
 	github.com/goccy/go-yaml v1.19.2 // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
