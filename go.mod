@@ -3,8 +3,8 @@ module github.com/privateerproj/plugin-example // Replace this globally with you
 go 1.26.2
 
 require (
-	github.com/gemaraproj/go-gemara v0.11.0
-	github.com/privateerproj/privateer-sdk v1.34.0
+	github.com/gemaraproj/go-gemara v0.12.0
+	github.com/privateerproj/privateer-sdk v1.34.1
 )
 
 require (
@@ -85,7 +85,7 @@ require (
 	github.com/pjbgf/sha1cd v0.6.0 // indirect
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/revanite-io/grc-store-protocol v0.7.0 // indirect
+	github.com/revanite-io/grc-store-protocol v0.17.0 // indirect
 	github.com/sagikazarmark/locafero v0.11.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v6 v6.0.2 // indirect
 	github.com/sassoftware/relic v7.2.1+incompatible // indirect
