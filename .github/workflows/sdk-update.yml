@@ -1,0 +1,62 @@
+---
+name: "Update SDK Dependency"
+
+on:
+  repository_dispatch:
+    types: [sdk-release]
+
+permissions: {}
+
+jobs:
+  update-sdk:
+    name: "Update SDK"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Harden the runner
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: stable
+
+      - name: Bump SDK version
+        env:
+          VERSION: ${{ github.event.client_payload.version }}
+        run: |
+          if [ -z "$VERSION" ]; then
+            echo "::error::No version provided in client_payload"
+            exit 1
+          fi
+          echo "Updating privateer-sdk to $VERSION..."
+          go get "github.com/privateerproj/privateer-sdk@${VERSION}"
+          go mod tidy
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          if git diff --quiet go.mod go.sum; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create Pull Request
+        if: steps.git-check.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
+        with:
+          branch: chore/bump-sdk-${{ github.event.client_payload.version }}
+          commit-message: "chore(deps): bump privateer-sdk to ${{ github.event.client_payload.version }}"
+          title: "chore(deps): bump privateer-sdk to ${{ github.event.client_payload.version }}"
+          body: |
+            Automated SDK dependency update triggered by [privateer-sdk ${{ github.event.client_payload.version }}](https://github.com/privateerproj/privateer-sdk/releases/tag/${{ github.event.client_payload.version }}).
+          labels: dependencies
+
